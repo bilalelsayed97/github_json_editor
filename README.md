@@ -1,16 +1,32 @@
-# json_editor
+# JSON Editor
 
-A new Flutter project.
+A cross-platform JSON editor built with Flutter. This application allows users to browse, edit, and save JSON files directly from a GitHub repository.
+
+## Features
+
+- **GitHub Integration**: Connect to your GitHub repository to fetch and edit JSON files.
+- **Cross-Platform Support**: Runs on Windows, macOS, Linux, iOS, Android, and Web.
+- **User-Friendly Interface**: Intuitive UI for seamless JSON file management.
+- **Search and Filter**: Quickly find files using the search functionality.
+- **Offline Support**: Edit files locally and sync changes when online.
+
+## Screenshots
+
+![Editor Screenshot](editor.png)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) installed on your machine.
+- A GitHub personal access token with the required permissions:
+  - `repo` (Full control of private repositories)
+  - `public_repo` (Access public repositories)
+  - `repo:status` (Access commit status)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/json_editor.git
+   cd json_editor
