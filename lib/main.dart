@@ -5,17 +5,17 @@ import 'injection/injection_container.dart' as di;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
-  runApp(const QuranAdminApp());
+  runApp(const jsonEditorApp());
 }
 
-class QuranAdminApp extends StatefulWidget {
-  const QuranAdminApp({super.key});
+class jsonEditorApp extends StatefulWidget {
+  const jsonEditorApp({super.key});
 
   @override
-  State<QuranAdminApp> createState() => _QuranAdminAppState();
+  State<jsonEditorApp> createState() => _jsonEditorAppState();
 }
 
-class _QuranAdminAppState extends State<QuranAdminApp> {
+class _jsonEditorAppState extends State<jsonEditorApp> {
   final ThemeMode _themeMode = ThemeMode.system;
 
   @override

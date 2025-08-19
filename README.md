@@ -1,4 +1,4 @@
-# quran_admin
+# json_editor
 
 A new Flutter project.
 

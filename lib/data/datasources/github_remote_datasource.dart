@@ -15,9 +15,7 @@ abstract class GithubRemoteDataSource {
 class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
   final Dio dio;
 
-  GithubRemoteDataSourceImpl({
-    required this.dio,
-  });
+  GithubRemoteDataSourceImpl({required this.dio});
 
   void _setHeaders(GitHubConfig config) {
     dio.options.headers['Authorization'] = 'Bearer ${config.token}';
@@ -31,7 +29,7 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
       _setHeaders(config);
       final repoContentsUrl = '${ApiConstants.githubBaseUrl}/repos/${config.username}/${config.repoName}/contents';
       final response = await dio.get('$repoContentsUrl?ref=${config.branch}');
-      
+
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
         return await _getJsonFilesRecursively(data, config);
@@ -45,10 +43,7 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
     }
   }
 
-  Future<List<RepositoryFileModel>> _getJsonFilesRecursively(
-    List<dynamic> items,
-    GitHubConfig config,
-  ) async {
+  Future<List<RepositoryFileModel>> _getJsonFilesRecursively(List<dynamic> items, GitHubConfig config) async {
     final List<RepositoryFileModel> jsonFiles = [];
 
     for (final item in items) {
@@ -78,19 +73,16 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
       _setHeaders(config);
       final repoContentsUrl = '${ApiConstants.githubBaseUrl}/repos/${config.username}/${config.repoName}/contents';
       final response = await dio.get('$repoContentsUrl/$filePath?ref=${config.branch}');
-      
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = response.data;
         final String encodedContent = data['content'];
         final String sha = data['sha'];
-        
+
         // Decode base64 content
         final String decodedContent = utf8.decode(base64.decode(encodedContent.replaceAll('\n', '')));
-        
-        return {
-          'content': decodedContent,
-          'sha': sha,
-        };
+
+        return {'content': decodedContent, 'sha': sha};
       } else {
         throw ServerFailure('Failed to fetch file content: ${response.statusMessage}');
       }
@@ -106,22 +98,19 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
     try {
       _setHeaders(config);
       final repoContentsUrl = '${ApiConstants.githubBaseUrl}/repos/${config.username}/${config.repoName}/contents';
-      
+
       // Encode content to base64
       final encodedContent = base64.encode(utf8.encode(content));
-      
+
       final requestData = {
-        'message': 'Update $filePath via Quran Admin Panel 🤖',
+        'message': 'Update $filePath via JSON Editor Panel 🤖',
         'content': encodedContent,
         'sha': sha,
         'branch': config.branch,
       };
 
-      final response = await dio.put(
-        '$repoContentsUrl/$filePath',
-        data: requestData,
-      );
-      
+      final response = await dio.put('$repoContentsUrl/$filePath', data: requestData);
+
       if (response.statusCode != 200) {
         throw ServerFailure('Failed to update file: ${response.statusMessage}');
       }
@@ -137,16 +126,16 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
     try {
       _setHeaders(config);
       final allFiles = await getRepositoryFiles(config);
-      
+
       if (query.isEmpty) {
         return allFiles;
       }
-      
+
       return allFiles.where((file) {
         final fileName = file.name.toLowerCase();
         final filePath = file.path.toLowerCase();
         final searchQuery = query.toLowerCase();
-        
+
         return fileName.contains(searchQuery) || filePath.contains(searchQuery);
       }).toList();
     } catch (e) {

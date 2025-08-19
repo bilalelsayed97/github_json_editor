@@ -1,4 +1,4 @@
-package com.example.quran_admin
+package com.example.json_editor
 
 import io.flutter.embedding.android.FlutterActivity
 
